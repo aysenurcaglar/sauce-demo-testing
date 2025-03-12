@@ -29,14 +29,16 @@ class LoginPage {
    * e.g. to login using username and password
    */
 
+  async open() {
+    await browser.url("/");
+  }
+
   async enterUsername(username) {
     await this.inputUsername.setValue(username);
-    // await logger.info(`Entered username: ${username}`);
   }
 
   async enterPassword(password) {
     await this.inputPassword.setValue(password);
-    // await logger.info("Entered password");
   }
 
   async clearUsername() {
@@ -46,7 +48,6 @@ class LoginPage {
     await browser.keys(["Delete"]);
     // Explicitly blur the field to trigger any validation
     await browser.keys(["Tab"]);
-    // await logger.info("Cleared username field");
   }
 
   async clearPassword() {
@@ -56,25 +57,21 @@ class LoginPage {
     await browser.keys(["Delete"]);
     // Explicitly blur the field to trigger any validation
     await browser.keys(["Tab"]);
-    // await logger.info("Cleared password field");
   }
 
   async clearAllFields() {
     await this.clearUsername();
     await this.clearPassword();
-    // await logger.info("Cleared both fields");
     await expect(this.inputUsername).toHaveValue("");
     await expect(this.inputPassword).toHaveValue("");
   }
 
   async clickLogin() {
     await this.loginButton.click();
-    // await logger.info("Clicked login button");
   }
 
   async getErrorMessage() {
     const message = await this.errorMessage.getText();
-    // await logger.info(`Error message displayed: ${message}`);
     return message;
   }
 
@@ -82,14 +79,6 @@ class LoginPage {
     await this.enterUsername(username);
     await this.enterPassword(password);
     await this.clickLogin();
-  }
-
-  /**
-   * overwrite specific options to adapt it to page object
-   */
-  async open() {
-    await browser.url("/");
-    // await logger.info("Opened login page");
   }
 }
 
