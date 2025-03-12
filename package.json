@@ -1,6 +1,11 @@
 {
   "name": "sauce-demo-testing",
-  "type": "module",
+  "type": "commonjs",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "wdio wdio.conf.js"
+  },
   "devDependencies": {
     "@wdio/cli": "^9.11.0",
     "@wdio/local-runner": "^9.11.0",
