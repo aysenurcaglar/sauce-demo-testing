@@ -1,5 +1,3 @@
-const { $, browser } = require("@wdio/globals");
-
 class LoginPage {
   /**
    * define selectors using getter methods
