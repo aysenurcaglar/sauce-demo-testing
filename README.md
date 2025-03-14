@@ -1,9 +1,11 @@
 # Sauce Demo Testing Project
 
 ## Overview
+
 This project contains automated end-to-end tests for the Sauce Demo website (https://www.saucedemo.com/) using WebdriverIO. The tests cover various login scenarios including valid credentials, missing password, and empty credential cases.
 
 ## Project Structure
+
 ```
 sauce-demo-testing/
 ├── test/
@@ -20,47 +22,36 @@ sauce-demo-testing/
 ```
 
 ## Test Cases
+
 The tests are organized into three use cases:
 
-1. **UC-1: Login with empty credentials**
-   - Tests error handling when both username and password fields are empty
+- **UC-1: Login with empty credentials**
 
-2. **UC-2: Login with missing password**
-   - Tests error handling when attempting to login with username but no password
+  - Enter any username and password.
+  - Clear both fields.
+  - Click "Login".
+  - Verify error message: `"Username is required"`.
 
-3. **UC-3: Login with valid credentials**
-   - Tests successful login with various usernames:
-     - `standard_user`
-     - `problem_user`
-     - `performance_glitch_user`
-     - `error_user`
-     - `visual_user`
+- **UC-2: Login with missing password**
 
-## Setup
+  - Enter a valid username.
+  - Enter password.
+  - Clear the password field.
+  - Click "Login".
+  - Verify error message: `"Password is required"`.
 
-### Prerequisites
-- Node.js (version 16 or higher)
-- npm (version 8 or higher)
+- **UC-3: Login with valid credentials**
+  - Enter valid usernames.
+  - Enter valid password.
+  - Click "Login".
+  - Verify the title: `"Swag Labs"`.
 
-### Installation
-1. Clone the repository
-   ```
-   git clone https://github.com/aysenurcaglar/sauce-demo-testing.git
-   cd sauce-demo-testing
-   ```
+### **Implementation Details**
 
-2. Install dependencies
-   ```
-   npm install
-   ```
-
-## Running Tests
-To run all tests:
-```
-npm test
-```
-
-## Browser Support
-The project is configured to run tests on:
-- Google Chrome
-- Microsoft Edge
+- **Test Automation Tool:** WebDriverIO
+- **Browsers:** Chrome, Edge
+- **Locators Used:** XPath
+- **Patterns:** Page Object Model (POM)
+- **Framework:** Mocha
+- **Parallel Execution:** Enabled (`maxInstances: 2`)
+- **Logging:** WDIO Spec Reporter
