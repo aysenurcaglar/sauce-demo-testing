@@ -1,9 +1,5 @@
 const { $, browser } = require("@wdio/globals");
-const logger = require("@wdio/logger").default("test");
 
-/**
- * sub page containing specific selectors and methods for a specific page
- */
 class LoginPage {
   /**
    * define selectors using getter methods
@@ -23,11 +19,6 @@ class LoginPage {
   get errorMessage() {
     return $('//h3[@data-test="error"]');
   }
-
-  /**
-   * a method to encapsule automation code to interact with the page
-   * e.g. to login using username and password
-   */
 
   async open() {
     await browser.url("/");
@@ -52,10 +43,8 @@ class LoginPage {
 
   async clearPassword() {
     await this.inputPassword.click();
-    // Select all text and delete it
     await browser.keys(["Control", "a"]);
     await browser.keys(["Delete"]);
-    // Explicitly blur the field to trigger any validation
     await browser.keys(["Tab"]);
   }
 

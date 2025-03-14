@@ -7,67 +7,47 @@ describe("Sauce Demo Login Tests", () => {
     await LoginPage.open();
   });
 
+  const { users, password, expectedPasswordError, expectedTitle } = LoginData;
+
   describe("UC-1: Login with empty credentials", () => {
-    LoginData.emptyCredentialsTest.forEach(
-      ({
-        testName,
-        initialUsername,
-        initialPassword,
-        expectedErrorMessage,
-      }) => {
-        it(testName, async () => {
-          // Enter credentials first, then clear them
-          await LoginPage.enterUsername(initialUsername);
-          await LoginPage.enterPassword(initialPassword);
+    it("should show error when credentials are cleared before login", async () => {
+      const { initialUsername, initialPassword, expectedErrorMessage } =
+        LoginData.emptyCredentialsTest;
 
-          // Clear both fields
-          await LoginPage.clearAllFields();
+      await LoginPage.enterUsername(initialUsername);
+      await LoginPage.enterPassword(initialPassword);
 
-          // Try to login
-          await LoginPage.clickLogin();
+      await LoginPage.clearAllFields();
 
-          // Verify error message
-          const errorMessage = await LoginPage.getErrorMessage();
-          await expect(errorMessage).toContain(expectedErrorMessage);
-        });
-      }
-    );
+      await LoginPage.clickLogin();
+
+      const errorMessage = await LoginPage.getErrorMessage();
+      await expect(errorMessage).toContain(expectedErrorMessage);
+    });
   });
 
   describe("UC-2: Login with missing password", () => {
-    LoginData.missingPasswordTest.forEach(
-      ({ testName, username, expectedErrorMessage }) => {
-        it(testName, async () => {
-          // Enter only username
-          await LoginPage.enterUsername(username);
+    it("should show error when attempting login with missing password", async () => {
+      await LoginPage.enterUsername(users[0]);
+      await LoginPage.enterPassword(password);
 
-          // Try to login without password
-          await LoginPage.clickLogin();
+      await LoginPage.clearPassword();
 
-          // Verify error message
-          const errorMessage = await LoginPage.getErrorMessage();
-          await expect(errorMessage).toContain(expectedErrorMessage);
-        });
-      }
-    );
+      await LoginPage.clickLogin();
+
+      const errorMessage = await LoginPage.getErrorMessage();
+      await expect(errorMessage).toContain(expectedPasswordError);
+    });
   });
 
   describe("UC-3: Login with valid credentials", () => {
-    LoginData.validCredentialsTest.forEach(
-      ({ testName, username, password, expectedTitle }) => {
-        it(testName, async () => {
-          // Login with valid credentials
-          await LoginPage.login(username, password);
+    users.forEach((username) => {
+      it(`should login successfully with ${username}`, async () => {
+        await LoginPage.login(username, password);
 
-          // Verify successful login
-          // const isLoggedIn = await InventoryPage.isLoggedIn();
-          // await expect(isLoggedIn).toBe(true);
-
-          // Verify page title
-          const title = await InventoryPage.getHeaderTitle();
-          await expect(title).toBe(expectedTitle);
-        });
-      }
-    );
+        const title = await InventoryPage.getHeaderTitle();
+        await expect(title).toBe(expectedTitle);
+      });
+    });
   });
 });
